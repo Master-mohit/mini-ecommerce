@@ -6,6 +6,7 @@ const uploads = require("./multer");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const pro = require('./pro');
+const upload = require('./multer');
 passport.use(new localStrategy(userModel.authenticate()));
 
 /* GET home page. */
@@ -18,13 +19,13 @@ router.get('/create',isLoggedIn, async function(req, res, next) {
   res.render('create', {user});
 });
 
-router.post('/create', isLoggedIn, async function(req, res) {
+router.post('/create', isLoggedIn,upload.single("image"), async function(req, res) {
   try {
     const user = await userModel.findOne({ username: req.session.passport.user }); 
 
     const newProduct = await productModel.create({
       p_name: req.body.p_name,
-      p_image: req.body.p_image,
+      p_image: req.file.filename,
       p_description: req.body.p_description,
       p_price: req.body.p_price,
     });
@@ -54,6 +55,41 @@ router.get('/main', isLoggedIn, async function(req, res, next) {
 router.get('/login', function(req, res, next) {
   res.render('login');
 });
+
+
+router.get('/cpage',isLoggedIn, async function(req, res, next) {
+  const product = await productModel.find()
+  res.render('cpage',{ product});
+});
+
+router.get('/cart', isLoggedIn, async function(req, res, next) {
+    const user = await userModel.findOne({ username: req.session.passport.user }).populate('cart');
+    res.render('cart', { user });
+
+  
+});
+
+
+router.get('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, res, next) {
+  const userId = await userModel.findOne({username: req.session.passport.user}) 
+  const productId = req.params.id;
+  const product = await productModel.findById(productId);
+
+
+  const user = await userModel.findById(userId);
+  
+  user.cart.push({
+    c_name: product.p_name,
+    c_image: product.p_image,
+    c_description: product.p_description,
+    c_price: product.p_price,
+  });
+
+ 
+  await user.save();
+ 
+});
+
 
 router.post('/register', function(req, res, next) {
   const userData = new userModel({

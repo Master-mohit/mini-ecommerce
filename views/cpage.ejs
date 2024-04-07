@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    .product-image {
+        width: 20vw;
+        height: 15vw; /* Adjust the height as needed */
+        object-fit: cover; /* Maintain aspect ratio */
+    }
+    .product-details {
+        padding: 20px;
+    }
+    h1, h2, p {
+        margin: 0;
+    }
+    h1 {
+        font-size: 24px;
+        color: #333;
+    }
+    h2 {
+        font-size: 18px;
+        color: #555;
+    }
+    p {
+        font-size: 16px;
+        color: #777;
+    }
+    .price {
+        font-size: 24px;
+        color: #ff6600;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+    
+<div class="container">
+    <img src="/images/uploads/<%=product.p_image %>" alt="Product Image" class="product-image">
+    <div class="product-details">
+        <h1><%=product.p_name %></h1>
+        <h2><%=product.p_description %></h2>
+        <p class="price">$<%=product.p_price %></p>
+    </div>
+</div>
+</body>
+</html>

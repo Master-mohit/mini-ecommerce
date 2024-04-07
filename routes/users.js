@@ -6,8 +6,17 @@ const userSchema = mongoose.Schema({
   username: String,
   password: String,
   email: String,
-  products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pro' }] 
+  products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pro' }] ,
+  
+  cart: [{
+    c_name: String,
+  c_image: String,
+  c_description: String,
+  c_price: Number,
+  
+  }],
 });
+
 
 userSchema.plugin(plm);
 module.exports = mongoose.model("user", userSchema);

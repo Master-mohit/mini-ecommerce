@@ -60,25 +60,28 @@
     background-color: #f44336;
     color: white;
 }
+a{
+    text-decoration: none;
+    color: black;
+}
 </style>
 </head>
 <body>
     
-    <% products.forEach(product => { %>
+   
+    <% user.cart.forEach(carts => { %>
+        <a href="/cpage">
         <div class="product-box">
-          <img src="/images/uploads/<%=product.p_image %>" alt="Product Image" class="product-image">
-          <div class="product-info">
-            <h2 class="product-name"><%=product.p_name %></h2>
-            <p class="product-description"><%=product.p_description %></p>
-            <p class="product-price">$<%=product.p_price %></p>
-            <div class="buttons">
-             <a href="/cart/<%=product._id%>"><button class="add-to-cart-btn">Add to Cart</button></a>
-              <button class="add-to-wishlist-btn">Add to Wishlist</button>
-              <button class="buy-now-btn">Buy Now</button>
+            <img src="/images/uploads/<%=carts.c_image %>" alt="Product Image" class="product-image">
+            <div class="product-info">
+              <h2 class="product-name"><%=carts.c_name %></h2>
+              <p class="product-description"><%=carts.c_description %></p>
+              <p class="product-price">$<%=carts.c_price %></p>
+              </div>
             </div>
-          </div>
-        </div>
-      <% }); %>
+        </a>
+  <% }); %>
+   
       
 </body>
 </html>

@@ -68,6 +68,17 @@
       padding: 8px 15px;
       cursor: pointer;
     }
+     button {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: #fff;
+}
+
 
     .profile-button:hover {
       background-color: #45a049;
@@ -121,13 +132,13 @@
 </head>
 <body>
   <div class="navbar">
-    <a href="#" class="navbar-brand">Your Website</a>
+  <a href="/cart"><button>Your Cart list</button></a>
     <div class="navbar-middle">
       <input type="text" placeholder="Search...">
     </div>
     <div class="navbar-actions">
      <a href="/create"><button type="button">Create</button></a>
-      <button type="button" class="profile-button">Profile</button>
+     <a href="/main"><button>Profile</button></a>
     </div>
   </div>
 
@@ -135,7 +146,7 @@
     <h2>Upload Product</h2>
     <form action="/create" method="post" enctype="multipart/form-data">
       <label for="image">Choose an image:</label>
-      <input type="file" id="image" name="p_image" accept="image/*" required>
+      <input type="file" id="image" name="image"  required>
 
       <label for="p_name">Product name:</label>
       <input type="text" id="p_name" name="p_name" placeholder="Enter Product name" required>
