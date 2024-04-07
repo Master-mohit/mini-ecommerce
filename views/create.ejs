@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Upload Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #333;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      color: #fff;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .navbar-middle {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-actions input[type="text"] {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+      width: 100px; /* Reduced width */
+    }
+
+    .navbar-actions button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 15px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    .navbar-actions button:hover {
+      background-color: #45a049;
+    }
+
+    .profile-button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+
+    .profile-button:hover {
+      background-color: #45a049;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    input[type="number"],
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="#" class="navbar-brand">Your Website</a>
+    <div class="navbar-middle">
+      <input type="text" placeholder="Search...">
+    </div>
+    <div class="navbar-actions">
+     <a href="/create"><button type="button">Create</button></a>
+      <button type="button" class="profile-button">Profile</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Upload Product</h2>
+    <form action="/create" method="post" enctype="multipart/form-data">
+      <label for="image">Choose an image:</label>
+      <input type="file" id="image" name="p_image" accept="image/*" required>
+
+      <label for="p_name">Product name:</label>
+      <input type="text" id="p_name" name="p_name" placeholder="Enter Product name" required>
+
+      <label for="p_description">Description:</label>
+      <input type="text" id="p_description" name="p_description" placeholder="Enter description" required>
+
+      <label for="p_price">Price:</label>
+      <input type="number" id="p_price" name="p_price" placeholder="Enter price" required>
+
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+</body>
+</html>
