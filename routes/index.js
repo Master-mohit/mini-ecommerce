@@ -57,16 +57,14 @@ router.get('/login', function(req, res, next) {
 });
 
 
-router.get('/cpage',isLoggedIn, async function(req, res, next) {
-  const product = await productModel.find()
-  res.render('cpage',{ product});
+router.get('/cpage/:id',isLoggedIn, async function(req, res, next) {
+   const prod = await productModel.findById(req.params.id)
+  res.render('cpage',{prod});
 });
 
 router.get('/cart', isLoggedIn, async function(req, res, next) {
-    const user = await userModel.findOne({ username: req.session.passport.user }).populate('cart');
-    res.render('cart', { user });
-
-  
+   const user = await userModel.findOne({ username: req.session.passport.user });
+    res.render('cart',{user});
 });
 
 
@@ -88,6 +86,35 @@ router.get('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, 
  
   await user.save();
  
+});
+router.get('/wishlist', isLoggedIn, async function(req, res, next) {
+  try {
+    const user = await userModel.findOne({username: req.session.passport.user});
+    res.render('wishlist', {user});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+router.get('/wishlist/:id',isLoggedIn, upload.single("image"),async function(req, res, next) {
+ const pro = req.params.id
+ const product = await productModel.findById(pro)
+ const user = await userModel.find({username: req.session.passport.user})
+ const userid = await userModel.findById(user)
+
+ userid.wishlist.push({
+  w_name: product.p_name,
+  w_image: product.p_image,
+  w_description: product.p_description,
+ })
+ await userid.save();
+});
+
+router.get('/wpage/:id', isLoggedIn, async function(req, res, next) {
+const pro = productModel.findById(req.params.id)
+   res.render('wpage',{pro});
 });
 
 

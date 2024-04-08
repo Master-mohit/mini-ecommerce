@@ -70,7 +70,7 @@ a{
     
    
     <% user.cart.forEach(carts => { %>
-        <a href="/cpage">
+        <a href="/cpage/<%=carts._id%>">
         <div class="product-box">
             <img src="/images/uploads/<%=carts.c_image %>" alt="Product Image" class="product-image">
             <div class="product-info">

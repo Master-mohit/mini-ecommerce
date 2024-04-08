@@ -9,10 +9,16 @@ const userSchema = mongoose.Schema({
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'pro' }] ,
   
   cart: [{
-    c_name: String,
+  c_name: String,
   c_image: String,
   c_description: String,
   c_price: Number,
+  
+  }],
+  wishlist: [{
+  w_name: String,
+  w_image: String,
+  w_description: String,
   
   }],
 });

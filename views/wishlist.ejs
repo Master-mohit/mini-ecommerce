@@ -68,22 +68,17 @@ a{
 </head>
 <body>
     
-    <% products.forEach(product => { %>
-        <a href="/cpage/<%=product._id%>"><div class="product-box">
-            <img src="/images/uploads/<%=product.p_image %>" alt="Product Image" class="product-image">
+    <% user.wishlist.forEach(wish => { %>
+        <a href="/wpage/<%=wish._id%>">
+        <div class="product-box">
+            <img src="/images/uploads/<%=wish.w_image%>" alt="Product Image" class="product-image">
             <div class="product-info">
-              <h2 class="product-name"><%=product.p_name %></h2>
-              <p class="product-description"><%=product.p_description %></p>
-              <p class="product-price">$<%=product.p_price %></p>
-              <div class="buttons">
-               <a href="/cart/<%=product._id%>"><button class="add-to-cart-btn">Add to Cart</button></a>
-              <a href="/wishlist/<%=product._id%>"><button class="add-to-wishlist-btn">Add to Wishlist</button></a>
-                <button class="buy-now-btn">Buy Now</button>
+              <h2 class="product-name"><%=wish.w_name%></h2>
+              <p class="product-description"><%=wish.w_description%></p>
               </div>
             </div>
-          </div>
-        </a>
-      <% }); %>
-      
+            </a>
+       <% }); %>
+   
 </body>
 </html>
