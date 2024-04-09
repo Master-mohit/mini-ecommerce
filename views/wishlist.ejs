@@ -69,7 +69,7 @@ a{
 <body>
     
     <% user.wishlist.forEach(wish => { %>
-        <a href="/wpage/<%=wish._id%>">
+        <a href="/wpage/<%=wish.w_id%>">
         <div class="product-box">
             <img src="/images/uploads/<%=wish.w_image%>" alt="Product Image" class="product-image">
             <div class="product-info">

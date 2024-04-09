@@ -12,15 +12,21 @@ const userSchema = mongoose.Schema({
   c_name: String,
   c_image: String,
   c_description: String,
-  c_price: Number,
+  c_price: Number, 
+  c_id:String,
+  c_quant:{ 
+    type:Number, 
+    default: 1
+  }
   
   }],
   wishlist: [{
   w_name: String,
   w_image: String,
   w_description: String,
-  
+   w_id:String
   }],
+  
 });
 
 

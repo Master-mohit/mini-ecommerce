@@ -81,12 +81,56 @@ router.get('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, 
     c_image: product.p_image,
     c_description: product.p_description,
     c_price: product.p_price,
+    c_id:product._id,
+    
   });
 
- 
+  res.redirect("/main")
   await user.save();
  
 });
+router.post('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, res, next) {
+  const userId = await userModel.findOne({username: req.session.passport.user}) 
+  const productId = req.params.id;
+  const product = await productModel.findById(productId);
+
+  
+  const user = await userModel.findById(userId);
+  user.cart.push({
+    c_name: product.p_name,
+    c_image: product.p_image,
+    c_description: product.p_description,
+    c_price: product.p_price,
+    c_id:product._id,
+    c_quant: req.body.quant
+    
+  });
+  
+    
+
+  res.redirect("/main")
+  await user.save();
+ 
+});
+
+
+// router.post('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, res, next) {
+//   const userId = await userModel.findOne({username: req.session.passport.user}) 
+//   const productId = req.params.id;
+//   const product = await productModel.findById(productId);
+
+
+//   const user = await userModel.findById(userId);
+  
+//   user.cart.push({
+//     c_quant: req.body.quant
+//   });
+
+//   res.redirect("/main")
+//   await user.save();
+ 
+// });
+
 router.get('/wishlist', isLoggedIn, async function(req, res, next) {
   try {
     const user = await userModel.findOne({username: req.session.passport.user});
@@ -107,13 +151,16 @@ router.get('/wishlist/:id',isLoggedIn, upload.single("image"),async function(req
  userid.wishlist.push({
   w_name: product.p_name,
   w_image: product.p_image,
-  w_description: product.p_description,
+  w_description: product.p_description, 
+  w_id:product._id
  })
- await userid.save();
+   res.redirect("/main")
+ await userid.save();``
 });
 
 router.get('/wpage/:id', isLoggedIn, async function(req, res, next) {
-const pro = productModel.findById(req.params.id)
+const pro = await productModel.findById(req.params.id)
+console.log(pro);
    res.render('wpage',{pro});
 });
 

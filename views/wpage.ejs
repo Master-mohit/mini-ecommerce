@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page</title>
@@ -91,12 +91,16 @@
 <body>
     <div class="container">
         <div class="product">
-            <img src="/images/uploads/<%=pro.w_image%>" alt="Product Image">
-            <h2 class="name"><%=pro.w_name%></h2>
-            <p class="description"><%=pro.w_description%></p>
-            <input type="number" id="quantity" name="quantity" value="1" min="1">
+            <img src="/images/uploads/<%=pro.p_image%>" alt="Product Image">
+            <h2 class="name"><%=pro.p_name%></h2>
+            <p class="description"><%=pro.p_description%></p>
+            <form action="/cart/<%=pro._id%>" method="post">
+                <input type="number" id="quantity" name="quant" >
+                <button type="submit" class="add-to-cart">Add to Cart</button>
+            </form>
+            
             <div class="buttons">
-                <button class="add-to-cart">Add to Cart</button>
+                
                 <button class="buy-now">Buy Now</button>
                 <button class="wishlist">Add to Wishlist</button>
             </div>
