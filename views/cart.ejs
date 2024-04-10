@@ -64,24 +64,58 @@ a{
     text-decoration: none;
     color: black;
 }
+.container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-right: 5vw;
+    }
+    h1 {
+        text-align: center;
+    }
+    h2 {
+        text-align: center;
+        font-size: 1.3vw;
+    }
+    .price {
+        text-align: center;
+        font-size: 24px;
+        color: #4CAF50;
+    }
+    .pricee {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 800;
+        color: #f54d1af5;
+    }
 </style>
 </head>
 <body>
-    
-   
+    <% let totalPrice = 0; %>
     <% user.cart.forEach(carts => { %>
+        <% let proTotalPrice = carts.c_price * carts.c_quant; %>
+        <% totalPrice += proTotalPrice; %>
         <a href="/wpage/<%=carts.c_id%>">
-        <div class="product-box">
-            <img src="/images/uploads/<%=carts.c_image %>" alt="Product Image" class="product-image">
-            <div class="product-info">
-              <h2 class="product-name"><%=carts.c_name %></h2>
-              <p class="product-description"><%=carts.c_description %></p>
-              <p class="product-price">$<%=carts.c_price %></p>
-              </div>
+            <div class="product-box">
+                <img src="/images/uploads/<%=carts.c_image %>" alt="Product Image" class="product-image">
+                <div class="product-info">
+                    <h2 class="product-name"><%=carts.c_name %></h2>
+                    <p class="product-description"><%=carts.c_description %></p>
+                    <p class="product-price">$<%=carts.c_price %></p>
+                </div>
+                <div class="container">
+                    <h2>Total Product Price</h2>
+                    <div class="price">$<%=proTotalPrice %></div>
+                </div>
             </div>
         </a>
-  <% }); %>
-   
-      
+    <% }); %>
+    <div class="container">
+        <h1>Total Price</h1>
+        <div class="pricee">$<%= totalPrice %></div>
+    </div>
 </body>
 </html>
