@@ -91,6 +91,11 @@ a{
         font-weight: 800;
         color: #f54d1af5;
     }
+    .quantity-input {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
 </style>
 </head>
 <body>
@@ -105,17 +110,31 @@ a{
                     <h2 class="product-name"><%=carts.c_name %></h2>
                     <p class="product-description"><%=carts.c_description %></p>
                     <p class="product-price">$<%=carts.c_price %></p>
+                </a>
+                    <div class="quantity-input">
+                        <input type="number" id="quantity_<%= carts.c_id %>" name="quantity" value="<%= carts.c_quant %>" min="1" max="10" onchange="updateTotalPrice('<%= carts.c_id %>', <%= carts.c_price %>)">
+                    </div>
                 </div>
                 <div class="container">
                     <h2>Total Product Price</h2>
-                    <div class="price">$<%=proTotalPrice %></div>
+                    <div id="totalPrice_<%= carts.c_id %>" class="price">$<%= proTotalPrice %></div>
                 </div>
             </div>
-        </a>
+     
     <% }); %>
     <div class="container">
         <h1>Total Price</h1>
         <div class="pricee">$<%= totalPrice %></div>
     </div>
+    <script>
+        
+        function updateTotalPrice(productId, productPrice) {
+            const quantityInput = document.getElementById('quantity_' + productId);
+            const totalPriceElement = document.getElementById('totalPrice_' + productId);
+            const quantity = parseInt(quantityInput.value);
+            const totalProductPrice = productPrice * quantity;
+            totalPriceElement.innerText = '$' + totalProductPrice.toFixed(2);
+        }
+    </script>
 </body>
 </html>

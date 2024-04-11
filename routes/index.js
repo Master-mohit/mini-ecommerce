@@ -114,22 +114,6 @@ router.post('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req,
 });
 
 
-// router.post('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, res, next) {
-//   const userId = await userModel.findOne({username: req.session.passport.user}) 
-//   const productId = req.params.id;
-//   const product = await productModel.findById(productId);
-
-
-//   const user = await userModel.findById(userId);
-  
-//   user.cart.push({
-//     c_quant: req.body.quant
-//   });
-
-//   res.redirect("/main")
-//   await user.save();
- 
-// });
 
 router.get('/wishlist', isLoggedIn, async function(req, res, next) {
   try {
