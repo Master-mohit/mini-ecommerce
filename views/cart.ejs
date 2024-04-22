@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product Details</title>
+<link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
 <style>
 /* CSS styles */
 .product-box {
@@ -96,9 +100,18 @@ a{
         display: flex;
         justify-content: center;
     }
+    #icon {
+        position: relative;
+        top: 2%;
+        left: 2%;
+        transform: translate(-50%, -50%);
+        
+    }
+  
 </style>
 </head>
 <body>
+   <div id="icon"><a href="/create"><h1><i class="ri-arrow-left-line"></i></h1></a></div>
     <% let totalPrice = 0; %>
     <% user.cart.forEach(carts => { %>
         <% let proTotalPrice = carts.c_price * carts.c_quant; %>

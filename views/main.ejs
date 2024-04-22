@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product Details</title>
+<link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
 <style>
 /* CSS styles */
 .product-box {
@@ -64,10 +68,17 @@ a{
     text-decoration: none;
     color: black;
 }
+#icon i{
+        position: relative;
+        top: 2%;
+        left: 2%;
+        transform: translate(-50%, -50%);
+        
+    }
 </style>
 </head>
 <body>
-    
+    <div id="icon"><a href="/create"><h1><i class="ri-arrow-left-line"></i></h1></a></div>
     <% products.forEach(product => { %>
         <a href="/wpage/<%=product._id%>"><div class="product-box">
             <img src="/images/uploads/<%=product.p_image %>" alt="Product Image" class="product-image">
@@ -78,7 +89,7 @@ a{
               <div class="buttons">
                <a href="/cart/<%=product._id%>"><button class="add-to-cart-btn">Add to Cart</button></a>
               <a href="/wishlist/<%=product._id%>"><button class="add-to-wishlist-btn">Add to Wishlist</button></a>
-                <button class="buy-now-btn">Buy Now</button>
+                <!-- <button class="buy-now-btn">Buy Now</button> -->
               </div>
             </div>
           </div>

@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +17,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 500px;
             margin: 20px auto;
             padding: 20px;
         }
@@ -77,19 +81,37 @@
             color: #fff;
         }
 
-        .buy-now {
+        #rzp-button1{
             background-color: #28a745;
             color: #fff;
         }
+        #rzp-button1:hover{
+            background-color: #fff;
+           
+        }
+
 
         .wishlist {
             background-color: #ffc107;
             color: #fff;
         }
+        #icon i{
+        position: relative;
+        top: 2%;
+        left: 2%;
+        transform: translate(-50%, -50%);
+        
+    }
+    a{
+        text-decoration: none;
+        color: #000;
+    }
     </style>
 </head>
 <body>
+    <div id="icon"><a href="/main"><h1><i class="ri-arrow-left-line"></i></h1></a></div>
     <div class="container">
+     
         <div class="product">
             <img src="/images/uploads/<%=pro.p_image%>" alt="Product Image">
             <h2 class="name"><%=pro.p_name%></h2>
@@ -101,10 +123,79 @@
             
             <div class="buttons">
                 
-                <button class="buy-now">Buy Now</button>
+                <button id="rzp-button1">Buy Now</button>
                 <button class="wishlist">Add to Wishlist</button>
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+      var orderId;
+      $(document).ready(function(){
+        var settings1 = {
+          "url": "/create/orderId",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": JSON.stringify({
+            "p_price": "<%=pro.p_price%>",
+            "quantity": $('#quantity').val()
+          }),
+        };
+
+        $.ajax(settings1).done(function(response){
+          options = {
+            "key": "rzp_test_nKhUOr5BeWPtRP",
+            "amount": response.amount,
+            "currency": response.currency,
+            "name": "Acme Corp",
+            "description": "so pretty easy to use",
+            "image": "https://example.com/your_logo",
+            "order_id": response.id,
+            "handler": function (response) {
+              var settings = {
+                "url": "/api/payment/verify",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify(response),
+              };
+              $.ajax(settings).done(function(response){
+                if(response == true){
+                  alert("Successful")
+                } else {
+                  alert("Payment failed")
+                }
+              })
+            },
+            "notes": {
+              "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+              "color": "#3399cc"
+            }
+          };
+          var rzp1 = new Razorpay(options);
+          rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+          });
+          document.getElementById('rzp-button1').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+          }
+        });
+      });
+    </script>
 </body>
 </html>

@@ -7,7 +7,47 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const pro = require('./pro');
 const upload = require('./multer');
+const Razorpay = require("razorpay");
+const { validatePaymentVerification } = require('razorpay/dist/utils/razorpay-utils');
 passport.use(new localStrategy(userModel.authenticate()));
+
+
+const instance = new Razorpay({
+  key_id: 'rzp_test_nKhUOr5BeWPtRP',
+  key_secret: 'rh5DFFYTqZRIxq49oAlkpNOy',
+});
+
+router.post('/create/orderId', function(req, res, next) {
+  var p_price = req.body.p_price;
+  console.log("Request received to create order:", req.body); 
+  var options = {
+    amount: p_price * 100,    
+    currency: "INR",
+    receipt: "order_rcptid_11"
+  };
+  instance.orders.create(options, function(err, order) {
+    if(err) {
+      console.error("Error creating order:", err); 
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+    console.log("Order created successfully:", order); 
+    res.send(order);
+  });
+});
+
+router.post("/api/payment/verify", function(req, res) {
+  try {
+    const razorpayOrderId = req.body.razorpay_order_id;
+    const razorpayPaymentId = req.body.razorpay_payment_id;
+    const signature = req.body.razorpay_signature;
+    const secret = 'rh5DFFYTqZRIxq49oAlkpNOy';
+    const result = validatePaymentVerification({"order_id": razorpayOrderId, "payment_id": razorpayPaymentId}, signature, secret);
+    res.send(result);
+  } catch (error) {
+    console.error("Error verifying payment:", error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -170,7 +210,6 @@ router.post('/login', passport.authenticate("local", {
   failureRedirect: "/login"
 }));
 
-// GET logout route
 router.get('/logout', (req, res, next) => {
   if (req.isAuthenticated())
     req.logout((err) => {
