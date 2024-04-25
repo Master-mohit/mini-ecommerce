@@ -1,0 +1,827 @@
+<html>
+    <style>
+        html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    b,
+    u,
+    i,
+    center,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    embed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section {
+      display: block;
+    }
+    body {
+      line-height: 1;
+      font-family: "Montserrat", sans-serif;
+      background-color: rgb(15, 15, 15);
+    }
+    ol,
+    ul {
+      list-style: none;
+    }
+    blockquote,
+    q {
+      quotes: none;
+    }
+    blockquote:before,
+    blockquote:after,
+    q:before,
+    q:after {
+      content: "";
+      content: none;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    /* End of CSS reset */
+    nav {
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      background-color: black;
+      height: 5em;
+    }
+    .logo {
+      font-family: "Poppins", sans-serif;
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-left: 1em;
+      cursor: pointer;
+    }
+    .search-icon {
+      color: gray;
+      position: relative;
+      left: 36px;
+      top: 7px;
+    }
+    .search input {
+      width: 15em;
+      background-color: rgb(253, 253, 253);
+      border: 1px solid rgb(200, 200, 200);
+      border-radius: 515px;
+      font-size: 16px;
+      padding: 6px 15px 6px 30px;
+      outline: none;
+      text-align: center;
+      max-width: 100%;
+      transition: ease-in-out 0.4s;
+      font-weight: 500;
+    }
+
+    .search input:focus {
+      border-color: rgb(0, 0, 0);
+      width: 30em;
+      padding: 10px 15px 10px 35px;
+      text-align: start;
+    }
+
+    .search input::placeholder {
+      text-align: center;
+    }
+
+    .log-in {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 10.5em;
+      margin-right: 2em;
+    }
+    .log-in a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.15em;
+      font-weight: 600;
+      transition: ease-in 0.3s;
+      padding: 6px 9px 6px 9px;
+      border-radius: 0px;
+    }
+    .log-in a:hover {
+      background-color: white;
+      color: black;
+      border-radius: 15px;
+    }
+    .nav-links {
+      height: 4em;
+      background-color: black;
+      font-family: "Hind", sans-serif;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 2;
+    }
+    .nav-links a {
+      color: black;
+      background-color: white;
+
+      text-align: center;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      transition: ease-in 0.3s;
+      padding: 11px 40px 11px 40px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      border: 2px solid black;
+      transition: ease-in 0.3s;
+    }
+    .nav-links a:first-of-type {
+      color: white;
+
+      background: linear-gradient(to top right, #2d2d2d, #000000, #1f1f1f)
+          padding-box,
+        linear-gradient(to top right, #ff8a00, #e52e71) border-box;
+      border-radius: 5px;
+      border: 2px solid transparent;
+    }
+    .nav-links a:nth-of-type(n + 2):hover {
+      border-radius: 5px;
+      background-color: #000000;
+      border: 2px solid white;
+      color: white;
+    }
+    .main-image {
+      height: 90vh;
+
+      background: linear-gradient(
+        to top left,
+        #6d0000,
+        #000000,
+        #000000,
+        #5a0000
+      );
+    }
+
+    .main-image img {
+      z-index: 1;
+      height: 50%;
+      width: auto;
+      max-width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 45%;
+      transform: translate(-50%, -50%) rotate(-35deg);
+      filter: brightness(0.9);
+      animation: moveUpDown 12s ease-in-out infinite;
+    }
+    .main-image h1 {
+      color: transparent;
+      font-size: 16em;
+      width: 100vw;
+      text-align: center;
+      max-width: 100%;
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      font-family: "Hind", sans-serif;
+      letter-spacing: -0.5px;
+      -webkit-text-stroke: 3px rgb(255, 255, 255);
+      white-space: nowrap;
+    }
+    .white-text {
+      color: white;
+    }
+    .typing-animation {
+      overflow: hidden;
+      animation: typing 8s ease-in-out forwards;
+    }
+    .expand-icon {
+      color: white;
+      position: absolute;
+      top: 90%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10em;
+      opacity: 1;
+
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .expand-button {
+      background-color: transparent;
+      border: none;
+
+      cursor: pointer;
+    }
+    .products-section {
+      background-color: rgb(15, 15, 15);
+    }
+    .item-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 2em;
+    }
+    .item-card {
+      height: 500px;
+      background-color: white;
+      width: 375px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      border-radius: 10px;
+      margin: 10px 5px 10px 5px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .item-image {
+      height: 350px;
+      width: 350px;
+      object-fit: cover;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-name {
+      font-size: 1.5em;
+      font-weight: 700;
+      margin-left: 15px;
+      margin-top: 1em;
+      align-self: flex-start;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 300px;
+      height: 26px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .product-description {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-left: 15px;
+      margin-top: 0.5em;
+      align-self: flex-start;
+      cursor: pointer;
+      color: rgb(55, 55, 55);
+    }
+    .product-price {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-left: 15px;
+      margin-top: 0.5em;
+      align-self: flex-start;
+      cursor: pointer;
+    }
+    .item-card:hover {
+      color: #9e3500;
+      transition: ease-in-out 0.2s;
+    }
+    .img-1 {
+      height: 350px;
+      width: 350px;
+      object-fit: cover;
+      margin-top: 10px;
+      background-size: 350px 450px;
+      background-position: center;
+      cursor: pointer;
+      background-repeat: no-repeat;
+    }
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .img-1:hover {
+    }
+    .product-item {
+  display: flex;
+  align-items: center;
+}
+a{
+  text-decoration: none;
+  color: #000000;
+}
+    .footer {
+      text-align: center;
+      color: white;
+      font-size: 28px;
+      padding: 50px;
+      background-color: rgb(10, 10, 10);
+      font-family: "Hind", sans-serif;
+      height: 50px;
+    }
+    .footer-text {
+      margin: 10px;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 30em;
+      }
+    }
+
+    @keyframes moveUpDown {
+      0% {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-35deg);
+      }
+      50% {
+        top: 60%;
+        transform: translate(-50%, -50%) rotate(-40deg);
+      }
+      100% {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-35deg);
+      }
+    }
+
+    @keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        top: 90%;
+      }
+      40% {
+        top: 85%;
+      }
+      60% {
+        top: 88%;
+      }
+    }
+@media screen and (max-width: 1400px) {
+      .nav-links a {
+        font-size: 15px;
+        padding: 11px 30px 11px 30px;
+      }
+      .main-image h1 {
+        font-size: 12em;
+      }
+    }
+    @media screen and (max-width: 1200px) {
+      .nav-links a {
+        font-size: 14px;
+        padding: 10px 25px 10px 25px;
+      }
+      .main-image h1 {
+        font-size: 10em;
+      }
+      .main-image img {
+        height: 40%;
+        top: 65%;
+      }
+    }
+    @media screen and (max-width: 1000px) {
+      .nav-links a {
+        font-size: 12px;
+        padding: 10px 20px 10px 20px;
+      }
+      .main-image img {
+        height: 35%;
+        top: 65%;
+      }
+
+      .search input:focus {
+        border-color: rgb(0, 0, 0);
+        width: 25em;
+        padding: 8px 15px 8px 35px;
+        text-align: start;
+      }
+    }
+    @media screen and (max-width: 820px) {
+      .nav-links a {
+        font-size: 11px;
+        padding: 9px 16px 9px 16px;
+      }
+      .main-image img {
+        height: 30%;
+        top: 65%;
+      }
+      .main-image h1 {
+        font-size: 8em;
+      }
+      .log-in {
+        width: 9.5em;
+        margin-right: 1em;
+      }
+      .log-in a {
+        font-size: 1em;
+
+        padding: 6px 9px 6px 9px;
+      }
+    }
+    @media screen and (max-width: 720px) {
+      .nav-links a {
+        font-size: 15px;
+        padding: 8px 25px 8px 25px;
+
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .nav-links {
+        height: 5.5em;
+      }
+      .main-image img {
+        height: 30%;
+        top: 65%;
+      }
+      .main-image h1 {
+        font-size: 8em;
+      }
+    }
+    @media screen and (max-width: 620px) {
+      .nav-links a {
+        font-size: 13px;
+        padding: 8px 20px 8px 20px;
+
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .log-in {
+        width: 8em;
+        margin-right: 1em;
+      }
+      .log-in a {
+        font-size: 0.8em;
+
+        padding: 6px 9px 6px 9px;
+      }
+      .search input {
+        width: 12em;
+
+        font-size: 14px;
+        padding: 6px 15px 6px 30px;
+
+        margin-right: 10px;
+      }
+      .search input:focus {
+        border-color: rgb(0, 0, 0);
+        width: 16em;
+        font-size: 14px;
+        padding: 8px 15px 8px 35px;
+        text-align: start;
+      }
+      .main-image h1 {
+        font-size: 6em;
+      }
+    }
+    @media screen and (max-width: 530px) {
+      .nav-links a {
+        font-size: 11px;
+        padding: 8px 16px 8px 16px;
+
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .main-image img {
+        height: 30%;
+        top: 65%;
+      }
+    }
+    @media screen and (max-width: 500px) {
+      .log-in {
+        width: 7em;
+        margin-right: 1em;
+      }
+      .log-in a {
+        font-size: 0.7em;
+        padding: 4px 6px 4px 6px;
+      }
+      .search input {
+        width: 10em;
+
+        font-size: 12px;
+        padding: 6px 15px 6px 30px;
+
+        margin-right: 10px;
+      }
+      .search input:focus {
+        width: 12em;
+        font-size: 12px;
+        padding: 6px 15px 6px 35px;
+        text-align: start;
+      }
+      .logo {
+        font-size: 1.2em;
+      }
+    }
+    @media screen and (max-width: 450px) {
+      .nav-links a {
+        font-size: 11px;
+        padding: 6px 14px 6px 14px;
+
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .nav-links {
+        height: 4em;
+      }
+    }
+    @media screen and (max-width: 425px) {
+      .log-in {
+        width: 6em;
+        margin-right: 1em;
+        flex-direction: column;
+      }
+      .log-in a {
+        font-size: 0.6em;
+        padding: 4px 6px 4px 6px;
+        margin-top: 2px;
+      }
+      .nav-links a {
+        font-size: 9px;
+        padding: 5px 10px 4px 10px;
+
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .nav-links {
+        height: 3em;
+      }
+      .nav-bar {
+        height: 3em;
+      }
+      .search input {
+        width: 12em;
+
+        font-size: 8px;
+        padding: 4px 15px 4px 22px;
+        text-align: left;
+
+        margin-right: 10px;
+      }
+      .search input:focus {
+        width: 12em;
+        font-size: 9px;
+        padding: 4px 15px 4px 22px;
+        text-align: left;
+      }
+      .search-icon {
+        color: gray;
+        position: relative;
+        left: 24px;
+        top: 3px;
+        font-size: 0.8em;
+      }
+      .search input::placeholder {
+        text-align: left;
+      }
+      .logo {
+        font-size: 1em;
+      }
+      .main-image h1 {
+        font-size: 4em;
+        -webkit-text-stroke: 1px rgb(255, 255, 255);
+      }
+    }
+    @media screen and (max-width: 340px) {
+      .nav-links a {
+        font-size: 9px;
+        padding: 5px 8px 3px 8px;
+
+        margin-left: 2px;
+        margin-right: 2px;
+      }
+      .search input {
+        width: 12em;
+
+        font-size: 8px;
+        padding: 3px 10px 3px 10px;
+        text-align: left;
+
+        position: relative;
+        left: 10px;
+      }
+      .search input:focus {
+        width: 13em;
+        font-size: 9px;
+        padding: 3px 10px 3px 10px;
+        text-align: left;
+      }
+      .search-icon {
+        opacity: 0;
+      }
+      .logo {
+        font-size: 0.7em;
+      }
+      .log-in {
+        width: 6em;
+        margin-right: 1em;
+        flex-direction: column;
+      }
+      .log-in a {
+        font-size: 0.6em;
+        padding: 1px 6px 1px 6px;
+        margin-top: 2px;
+      }
+    }
+    </style>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hind:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="nav-bar">
+        <div class="logo">AirBoost</div>
+        <div class="search">
+          <span class="material-symbols-outlined search-icon"> search </span>
+          <input
+            class="search-bar"
+            placeholder="Find Your Sole Mate..."
+            type="text"
+          />
+        </div>
+        <div class="log-in"><a href="">Sign Up</a><a href="">Log In</a></div>
+      </div>
+      <div class="nav-links">
+        <a href="" class="selected-link">Home</a><a href="/create">Create</a
+        ><a href="/wishlist">Wishlist</a><a href="">Men</a><a href="/cart">Add to cart</a><a href="">Profile</a>
+      </div>
+    </nav>
+    <main>
+      <section class="main-image">
+        <img src="https://i.ibb.co/GTFNRtw/main-shoe.png" alt="main-shoe.png" />
+        <h1 class="animated-text">
+          <span class="white-text">Jus</span>t Do
+          <span class="white-text">It.</span>
+        </h1>
+        <button class="expand-button">
+          <span class="material-symbols-outlined expand-icon">
+            expand_more
+          </span>
+        </button>
+      </section>
+      <section class="products-section">
+        <div class="item-container">
+          <% products.forEach(pro => { %> 
+            <div class="product-item">
+
+              <a href="/wpage/<%=pro._id%>">
+                <div class="item-card">
+                  <div class="img-1">
+                    <img src="/images/uploads/<%= pro.p_image %>" alt="">
+                  </div>
+                  <h1 class="product-name"><%= pro.p_name %></h1>
+                  <h2 class="product-description"><%= pro.p_description %></h2>
+                  <h3 class="product-price">$ <%= pro.p_price %></h3>
+                </div>
+              </a>
+            </div>
+          <% }) %>
+        </div>
+    
+      </section>
+    </main>
+    <footer>
+    
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const text = document.querySelector(".animated-text");
+        text.classList.add("typing-animation");
+      });
+    
+      const button = document.querySelector(".expand-button");
+      button.addEventListener("click", function () {
+        window.scroll({
+          top: 955,
+          left: 0,
+          behavior: "smooth",
+        });
+      });
+    
+    </script>
+  </body>
+</html>

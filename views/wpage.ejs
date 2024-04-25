@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -109,7 +109,7 @@
     </style>
 </head>
 <body>
-    <div id="icon"><a href="/main"><h1><i class="ri-arrow-left-line"></i></h1></a></div>
+    <div id="icon"><a href="/product"><h1><i class="ri-arrow-left-line"></i></h1></a></div>
     <div class="container">
      
         <div class="product">
@@ -124,7 +124,7 @@
             <div class="buttons">
                 
                 <button id="rzp-button1">Buy Now</button>
-                <button class="wishlist">Add to Wishlist</button>
+              <a href="/wishlist/<%=pro._id%>"><button class="wishlist">Add to Wishlist</button></a>
             </div>
         </div>
     </div>
@@ -141,7 +141,7 @@
             "Content-Type": "application/json"
           },
           "data": JSON.stringify({
-            "p_price": "<%=pro.p_price%>",
+            "p_price": "<%=pro.c_price%>",
             "quantity": $('#quantity').val()
           }),
         };
@@ -197,5 +197,326 @@
         });
       });
     </script>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+
+:root{
+    --first-color: #E3F8FF;
+    --second-color: #DCFAFB;
+    --third-color: #FFE8DF;
+    --accent-color: #FF5151;
+    --dark-color: #161616;
+}
+
+
+:root{
+    --body-font: 'Open Sans';
+    --h1-font-size: 1.5rem;
+    --h3-font-size: 1rem;
+    --normal-font-size: 0.938rem;
+    --smaller-font-size: 0.75rem;
+}
+@media screen and (min-width: 768px){
+    :root{
+        --h1-font-size: 2rem;
+        --normal-font-size: 1rem;
+        --smaller-font-size: 0.813rem;
+    }
+}
+
+/*-- BASE --*/
+*,::after,::before{
+    box-sizing: border-box;
+}
+body{
+    margin: 2rem 0 0 0;
+    background-color: #fff;
+    color: var(--dark-color);
+    font-family: var(--body-font);
+}
+h1{
+    font-size: var(--h1-font-size);
+}
+img{
+    max-width: 130%;
+    height: auto;
+}
+a{
+    text-decoration: none;
+}
+
+/*-- LAYAOUT --*/
+.main {
+    padding: 2rem 0;
+}
+.bd-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    max-width: 600px;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+    align-items: center;
+    gap: 2rem;
+}
+
+/*-- PAGES --*/
+.title-shop{
+    position: relative;
+    margin: 0 2.5rem;
+}
+.title-shop::after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 72px;
+    height: 2px;
+    background-color: var(--dark-color);
+    margin-left: .25rem;
+}
+
+/*-- COMPONENT --*/
+.card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+article:nth-child(1){
+    background-color: var(--first-color);
+}
+article:nth-child(2){
+    background-color: var(--second-color);
+}
+article:nth-child(3){
+    background-color: var(--third-color);
+}
+article:nth-child(4){
+    background-color: var(--second-color);
+}
+.card__img{
+    width: 190px;
+    height: auto;
+    padding: 3rem 0;
+    transition: .5s;
+}
+.card__name{
+    position: absolute;
+    left: -25%;
+    top: 0;
+    width: 3.5rem;
+    height: 100%;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    background-color: var(--dark-color);
+    color: #fff;
+    font-weight: bold;
+    transition: .5s;
+}
+.card__icon{
+    font-size: 1.5rem;
+    color: var(--dark-color);
+}
+.card__icon:hover{
+    color: var(--accent-color);
+}
+.card__precis{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    transition: .5s;
+}
+.card__preci{
+    display: block;
+    text-align: center;
+}
+.card__preci--before{
+    font-size: var(--smaller-font-size);
+    color: var(--accent-color);
+    margin-bottom: .25rem;
+}
+.card__preci--now{
+    font-size: var(--h3-font-size);
+    font-weight: bold;
+}
+
+.card:hover{
+    box-shadow: 0 .5rem 1rem #D1D9E6;
+}
+.card:hover .card__name{
+    left: 0;
+}
+.card:hover .card__img{
+    transform: rotate(30deg);
+    margin-left: 3.5rem;
+}
+.card:hover .card__precis{
+    margin-left: 3.5rem;
+    padding: 0 1.5rem;
+}
+#chacha{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            background-color: orange;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+        input[type="number"] {
+            width: 50px;
+            padding: 5px;
+           
+        }
+
+@media screen and (min-width: 1200px){
+    body{
+        margin: 3rem 0 0 0;
+    }
+    .title-shop{
+        margin: 0 5rem;
+    }
+    .bd-grid{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+</style>
+<body>
+  
+  <body>
+    <h1 class="title-shop">SHOP</h1>
+    <main class="main bd-grid">
+        <article class="card">
+            <div class="card__img">
+                <img src="/images/uploads/<%=pro.p_image%>" alt="">
+            </div>
+            <div class="card__name">
+                <p>AIR ZOOM PEGASUS</p>
+            </div>
+            <div class="card__precis">
+                <a href="/wishlist/<%=pro._id%>" class="card__icon" ><ion-icon name="heart-outline"></ion-icon></a>
+                
+                <div>
+                    <span class="card__preci card__preci--now">$<%=pro.p_price%></span>
+                </div>
+                <a href="/cart/<%=pro._id%>" class="card__icon"><ion-icon name="cart-outline"></ion-icon></a>
+            </div>
+        </article>
+        
+          
+    </main>
+    <div id="chacha">
+      <button id="rzp-button1">Buy Now</button>
+      <input type="number" id="quantity" name="quant" >
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+   
+    <script>
+      var orderId;
+      $(document).ready(function(){
+        var settings1 = {
+          "url": "/create/orderId",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": JSON.stringify({
+            "p_price": "<%=pro.c_price%>",
+            "quantity": $('#quantity').val()
+          }),
+        };
+
+        $.ajax(settings1).done(function(response){
+          options = {
+            "key": "rzp_test_nKhUOr5BeWPtRP",
+            "amount": response.amount,
+            "currency": response.currency,
+            "name": "Acme Corp",
+            "description": "so pretty easy to use",
+            "image": "https://example.com/your_logo",
+            "order_id": response.id,
+            "handler": function (response) {
+              var settings = {
+                "url": "/api/payment/verify",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify(response),
+              };
+              $.ajax(settings).done(function(response){
+                if(response == true){
+                  alert("Successful")
+                } else {
+                  alert("Payment failed")
+                }
+              })
+            },
+            "notes": {
+              "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+              "color": "#3399cc"
+            }
+          };
+          var rzp1 = new Razorpay(options);
+          rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+          });
+          document.getElementById('rzp-button1').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+          }
+        });
+      });
+    </script>
+</body>
+
 </body>
 </html>

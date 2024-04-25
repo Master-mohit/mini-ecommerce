@@ -54,46 +54,59 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/product',isLoggedIn, async function(req, res, next) {
+  const user = await userModel.findOne({username: req.session.passport.user})
+  try {
+    const products = await productModel.find();
+    res.render('product', { products , user});
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 router.get('/create',isLoggedIn, async function(req, res, next) {
   const user = await userModel.findOne({username: req.session.passport.user})
-  res.render('create', {user});
+  const pro = await productModel.find();
+  res.render('create', {user, pro});
 });
 
 router.post('/create', isLoggedIn,upload.single("image"), async function(req, res) {
   try {
     const user = await userModel.findOne({ username: req.session.passport.user }); 
-
     const newProduct = await productModel.create({
       p_name: req.body.p_name,
       p_image: req.file.filename,
       p_description: req.body.p_description,
       p_price: req.body.p_price,
     });
-   
     user.products.push(newProduct._id); 
     await user.save();
-  
-    res.redirect("/main");
+    res.redirect("/product");
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
   }
 });
-
-router.get('/main', isLoggedIn, async function(req, res, next) {
-  try {
-    const products = await productModel.find();
-    res.render('main', { products });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
 
 
 router.get('/login', function(req, res, next) {
   res.render('login');
+});
+
+
+router.get('/delete/:id', isLoggedIn, async function(req, res, next) {
+    const productId = req.params.id; 
+    const user = await userModel.findOne({ username: req.session.passport.user });
+       const userId = await userModel.findById(user);
+       const hai = userId.cart.indexOf(productId);
+       if(userId){
+        user.cart.splice(productId, 1)
+       }
+       await user.save();
+       res.redirect("/cart")
+    
 });
 
 
@@ -104,32 +117,12 @@ router.get('/cpage/:id',isLoggedIn, async function(req, res, next) {
 
 router.get('/cart', isLoggedIn, async function(req, res, next) {
    const user = await userModel.findOne({ username: req.session.passport.user });
-    res.render('cart',{user});
+   const pro = await productModel.findById(req.params.id)
+    res.render('cart',{user, pro});
 });
 
 
 router.get('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, res, next) {
-  const userId = await userModel.findOne({username: req.session.passport.user}) 
-  const productId = req.params.id;
-  const product = await productModel.findById(productId);
-
-
-  const user = await userModel.findById(userId);
-  
-  user.cart.push({
-    c_name: product.p_name,
-    c_image: product.p_image,
-    c_description: product.p_description,
-    c_price: product.p_price,
-    c_id:product._id,
-    
-  });
-
-  res.redirect("/main")
-  await user.save();
- 
-});
-router.post('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, res, next) {
   const userId = await userModel.findOne({username: req.session.passport.user}) 
   const productId = req.params.id;
   const product = await productModel.findById(productId);
@@ -148,7 +141,7 @@ router.post('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req,
   
     
 
-  res.redirect("/main")
+  res.redirect("/product")
   await user.save();
  
 });
@@ -178,7 +171,7 @@ router.get('/wishlist/:id',isLoggedIn, upload.single("image"),async function(req
   w_description: product.p_description, 
   w_id:product._id
  })
-   res.redirect("/main")
+   res.redirect("/product")
  await userid.save();``
 });
 
@@ -197,7 +190,7 @@ router.post('/register', function(req, res, next) {
   userModel.register(userData, req.body.password)
     .then((result)=> {
       passport.authenticate("local")(req, res, ()=> {
-        res.redirect("/create");
+        res.redirect("/product");
       });
     })
     .catch((err)=> {
@@ -206,7 +199,7 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/login', passport.authenticate("local", {
-  successRedirect: "/create",
+  successRedirect: "/product",
   failureRedirect: "/login"
 }));
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -148,6 +148,343 @@ a{
             const totalProductPrice = productPrice * quantity;
             totalPriceElement.innerText = '$' + totalProductPrice.toFixed(2);
         }
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>@import "compass/css3";
+    color-border: #eee;
+    color-label: #aaa;
+    font-default: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-bold: 'HelveticaNeue-Medium', 'Helvetica Neue Medium';
+    
+    .product-image { float: left; width: 20%; }
+    .product-details { float: left; width: 37%; }
+    .product-price { float: left; width: 12%; }
+    .product-quantity { float: left; width: 10%; }
+    .product-removal { float: left; width: 9%; }
+    .product-line-price { float: left; width: 12%; text-align: right; }
+    .group:before,
+    .group:after {
+        content: '';
+        display: table;
+    } 
+    .group:after {
+        clear: both;
+    }
+    .group {
+        zoom: 1;
+    }
+    
+    .shopping-cart, .column-labels, .product, .totals-item {
+      @extend .group;
+    }
+    
+    .product .product-price:before, .product .product-line-price:before, .totals-value:before {
+      content: '$';
+    }
+    
+    body {
+      padding: 0px 30px 30px 20px;
+      font-family: font-default;
+      font-weight: 100;
+    }
+    
+    h1 {
+      font-weight: 100;
+    }
+    
+    label {
+      color: $color-label;
+    }
+    
+    .shopping-cart {
+      margin-top: -45px;
+    }
+    
+    
+   
+    .column-labels {
+      label {
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid color-border;
+      }
+      
+      .product-image, .product-details, .product-removal {
+        text-indent: -9999px;
+      }
+    }
+    
+    
+    /* Product entries */
+    .product {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid color-border;
+      
+      .product-image {
+        text-align: center;
+        img {
+          width: 100px;
+        }
+      }
+      
+      .product-details {
+        .product-title {
+          margin-right: 20px;
+          font-family: font-bold;
+        }
+        .product-description {
+          margin: 5px 20px 5px 0;
+          line-height: 1.4em;
+        }
+      }
+      
+      .product-quantity {
+        input {
+          width: 40px;
+          
+        }
+      }
+      
+      .remove-product {
+        border: 0;
+        padding: 4px 8px;
+        background-color: #c66;
+        color: #fff;
+        font-family: font-bold;
+        font-size: 12px;
+        border-radius: 3px;
+      }
+      
+      .remove-product:hover {
+        background-color: #a44;
+      }
+    }
+    
+    
+    
+    .totals {
+      .totals-item {
+        float: right;
+        clear: both;
+        width: 100%;
+        margin-bottom: 10px;
+        
+        label {
+          float: left;
+          clear: both;
+          width: 79%;
+          text-align: right;
+        }
+        
+        .totals-value {
+          float: right;
+          width: 21%;
+          text-align: right;
+        }
+      }
+      
+      .totals-item-total {
+        font-family: font-bold;
+      }
+    }
+    
+    .checkout {
+      float: right;
+      border: 0;
+      margin-top: 20px;
+      padding: 6px 25px;
+      background-color: #6b6;
+      color: #fff;
+      font-size: 25px;
+      border-radius: 3px;
+    }
+    
+    .checkout:hover {
+      background-color: #494;
+    }
+    
+    
+    @media screen and (max-width: 650px) {
+      
+      .shopping-cart {
+        margin: 0;
+        padding-top: 20px;
+        border-top: 1px solid color-border;
+      }
+      
+      .column-labels {
+        display: none;
+      }
+      
+      .product-image {
+        float: right;
+        width: auto;
+        img {
+          margin: 0 0 10px 10px;
+        }
+      }
+      
+      .product-details {
+        float: none;
+        margin-bottom: 10px;
+        width: auto;
+      }
+      
+      .product-price {
+        clear: both;
+        width: 70px;
+      }
+      
+      .product-quantity {
+        width: 100px;
+        input {
+          margin-left: 20px;
+        }
+      }
+      
+      .product-quantity:before {
+        content: 'x';
+      }
+      
+      .product-removal {
+        width: auto;
+      }
+      
+      .product-line-price {
+        float: right;
+        width: 70px;
+      }
+      
+    }
+    
+    @media screen and (max-width: 350px) {
+      
+      .product-removal {
+        float: right;
+      }
+      
+      .product-line-price {
+        float: right;
+        clear: left;
+        width: auto;
+        margin-top: 10px;
+      }
+      
+      .product .product-line-price:before {
+        content: 'Item Total: $';
+      }
+      
+      .totals {
+        .totals-item {
+          label {
+            width: 60%;
+          }
+          
+          .totals-value {
+            width: 40%;
+          }
+        }
+      }
+    }</style>
+<body>
+    <h1>Shopping Cart</h1>
+
+<div class="shopping-cart">
+
+  <div class="column-labels">
+    <label class="product-image">Image</label>
+    <label class="product-details">Product</label>
+    <label class="product-price">Price</label>
+    <label class="product-quantity">Quantity</label>
+    <label class="product-removal">Remove</label>
+    <label class="product-line-price">Total</label>
+  </div>
+
+  <div class="product">
+   
+    <% user.cart.forEach(carts => { %>
+        <% let proTotalPrice = carts.c_price * carts.c_quant; %>
+        <% totalPrice += proTotalPrice; %>
+        <div class="product">
+            <div class="product-image">
+                <img src="/images/uploads/<%=carts.c_image %>">
+            </div>
+            <div class="product-details">
+                <div class="product-title"><%=carts.c_name%></div>
+                <p class="product-description"><%=carts.c_description%></p>
+            </div>
+            <div class="product-price"><%=carts.c_price%></div>
+            <div class="product-quantity">
+                <input type="number" id="quantity_<%= carts.c_id %>" name="quantity" value="<%= carts.c_quant %>" min="1" max="10" onchange="updateQuantity(this)">
+            </div>
+            <div class="product-removal">
+                <a href="/delete/<%=carts._id%>"><button class="remove-product">Remove</button></a>
+            </div>
+            <div class="product-line-price">
+                <%= proTotalPrice.toFixed(2) %>
+            </div>
+        </div>
+    <% })  %>
+</div>
+
+<div class="totals">
+    <div class="totals-item">
+        <label>Subtotal</label>
+        <div class="totals-value" id="cart-subtotal"></div>
+    </div>
+    <div class="totals-item">
+        <label>Tax (5%)</label>
+        <div class="totals-value" id="cart-tax"></div>
+    </div>
+    <div class="totals-item">
+        <label>Shipping</label>
+        <div class="totals-value" id="cart-shipping">15.00</div>
+    </div>
+    <div class="totals-item totals-item-total">
+        <label>Grand Total</label>
+        <div class="totals-value" id="cart-total"></div>
+    </div>
+</div>
+
+<button class="checkout">Continue</button>
+
+</div>
+<script>
+  var taxRate = 0.05;
+        var shippingRate = 15.00;
+        var fadeTime = 300;
+
+        function updateQuantity(quantityInput) {
+            var productRow = quantityInput.parentElement.parentElement;
+            var price = parseFloat(productRow.querySelector('.product-price').textContent);
+            var quantity = parseInt(quantityInput.value);
+            var linePrice = price * quantity;
+            productRow.querySelector('.product-line-price').textContent = linePrice.toFixed(2);
+            recalculateCart();
+        }
+        function recalculateCart() {
+    var subtotal = 0;
+    document.querySelectorAll('.product').forEach(function (product) {
+        subtotal += parseFloat(product.querySelector('.product-line-price').textContent);
+    });
+    var tax = subtotal * taxRate;
+    var shipping = parseFloat(document.getElementById('cart-shipping').textContent);
+    var grandTotal = subtotal + tax + shipping;
+    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2);
+    document.getElementById('cart-tax').textContent = tax.toFixed(2);
+    document.getElementById('cart-total').textContent = grandTotal.toFixed(2);
+}
     </script>
 </body>
 </html>

@@ -91,6 +91,7 @@
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
     }
 
     h2 {
@@ -128,6 +129,17 @@
     button[type="submit"]:hover {
       background-color: #45a049;
     }
+    #box{
+      width: 15vw;
+      height: 20vh;
+      overflow: hidden;
+      padding: 2vw 3vw;
+    }
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   </style>
 </head>
 <body>
@@ -147,7 +159,10 @@
     <h2>Upload Product</h2>
     <form action="/create" method="post" enctype="multipart/form-data">
       <label for="image">Choose an image:</label>
-      <input type="file" id="image" name="image"  required>
+      <input type="file" id="image" name="image" onchange="previewImage(event)" required>
+      <div id="box">
+        <img id="preview" src="" alt="Preview Image">
+      </div>
 
       <label for="p_name">Product name:</label>
       <input type="text" id="p_name" name="p_name" placeholder="Enter Product name" required>
@@ -161,5 +176,20 @@
       <button type="submit">Upload</button>
     </form>
   </div>
+  <script>
+    function previewImage(event) {
+      var preview = document.getElementById('preview');
+      var file = event.target.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function() {
+        preview.src = reader.result;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
 </body>
 </html>
