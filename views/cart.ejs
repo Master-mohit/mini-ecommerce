@@ -1,157 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product Details</title>
-<link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
-    rel="stylesheet"
-/>
-<style>
-/* CSS styles */
-.product-box {
-    display: flex;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-.product-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 5px 0 0 5px;
-}
-
-.product-info {
-    padding: 20px;
-}
-
-.product-name {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.product-description {
-    margin-bottom: 15px;
-}
-
-.product-price {
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.buttons button {
-    padding: 10px 20px;
-    font-size: 14px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.add-to-cart-btn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.add-to-wishlist-btn {
-    background-color: #008CBA;
-    color: white;
-}
-
-.buy-now-btn {
-    background-color: #f44336;
-    color: white;
-}
-a{
-    text-decoration: none;
-    color: black;
-}
-.container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin-right: 5vw;
-    }
-    h1 {
-        text-align: center;
-    }
-    h2 {
-        text-align: center;
-        font-size: 1.3vw;
-    }
-    .price {
-        text-align: center;
-        font-size: 24px;
-        color: #4CAF50;
-    }
-    .pricee {
-        text-align: center;
-        font-size: 30px;
-        font-weight: 800;
-        color: #f54d1af5;
-    }
-    .quantity-input {
-        margin-top: 10px;
-        display: flex;
-        justify-content: center;
-    }
-    #icon {
-        position: relative;
-        top: 2%;
-        left: 2%;
-        transform: translate(-50%, -50%);
-        
-    }
-  
-</style>
-</head>
-<body>
-   <div id="icon"><a href="/create"><h1><i class="ri-arrow-left-line"></i></h1></a></div>
-    <% let totalPrice = 0; %>
-    <% user.cart.forEach(carts => { %>
-        <% let proTotalPrice = carts.c_price * carts.c_quant; %>
-        <% totalPrice += proTotalPrice; %>
-        <a href="/wpage/<%=carts.c_id%>">
-            <div class="product-box">
-                <img src="/images/uploads/<%=carts.c_image %>" alt="Product Image" class="product-image">
-                <div class="product-info">
-                    <h2 class="product-name"><%=carts.c_name %></h2>
-                    <p class="product-description"><%=carts.c_description %></p>
-                    <p class="product-price">$<%=carts.c_price %></p>
-                </a>
-                    <div class="quantity-input">
-                        <input type="number" id="quantity_<%= carts.c_id %>" name="quantity" value="<%= carts.c_quant %>" min="1" max="10" onchange="updateTotalPrice('<%= carts.c_id %>', <%= carts.c_price %>)">
-                    </div>
-                </div>
-                <div class="container">
-                    <h2>Total Product Price</h2>
-                    <div id="totalPrice_<%= carts.c_id %>" class="price">$<%= proTotalPrice %></div>
-                </div>
-            </div>
-     
-    <% }); %>
-    <div class="container">
-        <h1>Total Price</h1>
-        <div class="pricee">$<%= totalPrice %></div>
-    </div>
-    <script>
-        
-        function updateTotalPrice(productId, productPrice) {
-            const quantityInput = document.getElementById('quantity_' + productId);
-            const totalPriceElement = document.getElementById('totalPrice_' + productId);
-            const quantity = parseInt(quantityInput.value);
-            const totalProductPrice = productPrice * quantity;
-            totalPriceElement.innerText = '$' + totalProductPrice.toFixed(2);
-        }
-    </script>
-</body>
-</html> -->
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -159,6 +5,10 @@ a{
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
 </head>
 <style>@import "compass/css3";
     color-border: #eee;
@@ -191,19 +41,28 @@ a{
     .product .product-price:before, .product .product-line-price:before, .totals-value:before {
       content: '$';
     }
-    
     body {
-      padding: 0px 30px 30px 20px;
-      font-family: font-default;
-      font-weight: 100;
-    }
-    
-    h1 {
-      font-weight: 100;
-    }
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+z-index: 99;
+}
+
+h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.product-title{
+    font-size: 1.8vw;
+    font-weight: 800;
+    text-transform: capitalize;
+}
     
     label {
-      color: $color-label;
+      color: color-label;
+      font-size: 1.5vw;
+      font-weight: 400;
     }
     
     .shopping-cart {
@@ -313,8 +172,147 @@ a{
     .checkout:hover {
       background-color: #494;
     }
-    
-    
+    #icon{
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+    i{
+        font-size: 2vw;
+    }
+    a{
+        text-decoration: none;
+        color: #000;
+    }
+ 
+* {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+}
+
+.cont {
+  width: 10%;
+  height: 10%;
+  position: relative;
+}
+
+
+button {
+  height: 50px;
+  width: 150px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+#emoji{
+    font-size: 1vw;
+    font-weight: 600;
+}
+
+#giant {
+  background-color: #7e7ece;
+  transition: all ease 0.2s;
+  /* position: absolute; */
+}
+
+#giant:hover {
+  height: 90vh;
+  width: 95vw;
+  font-size: 30px;
+  border-radius: 10px;
+}
+
+#emoji {
+  width: 250px;
+  position: relative;
+  z-index: 0;
+}
+
+span:nth-child(1) {
+  position: absolute;
+  width: 50%;
+  left: 0;
+  top: 0;
+  height: 100%;
+  z-index: 5;
+}
+
+span:nth-child(2) {
+  position: absolute;
+  width: 50%;
+  right: 0;
+  top: 0;
+  height: 100%;
+  z-index: 5;
+}
+
+.emoji-cont {
+  height: 50px;
+  width: 250px;
+  z-index: 1;
+  position: relative;
+  cursor: pointer;
+}
+
+#emoji::before {
+  content: '😊';
+  position: absolute;
+  height: 50px;
+  width: 50%;
+  left: -15%;
+  top: 50%;
+  transform: scale(2);
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+
+#emoji::after {
+  content: '🛒';
+  position: absolute;
+  height: 50px;
+  width: 50%;
+  right: -15%;
+  top: 50%;
+  transform: scale(2);
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+
+span:nth-child(1):hover ~ #emoji::before {
+  content: '🤩';
+  transform: scale(3);
+  transform-origin: center;
+  left: -20%;
+}
+
+span:nth-child(1):hover ~ #emoji::after {
+  opacity: 0;
+}
+
+span:nth-child(1):hover ~ #emoji {
+  background: linear-gradient(45deg, #db5aa3, #db985a);
+}
+
+
+
+span:nth-child(2):hover ~ #emoji::after {
+  content: '😴';
+  transform: scale(3);
+  transform-origin: center;
+  right: -20%;
+}
+
+span:nth-child(2):hover ~ #emoji::before {
+  opacity: 0;
+}
+
+span:nth-child(2):hover ~ #emoji {
+  background: linear-gradient(45deg, #466c8c, #7559db);
+}
+
     @media screen and (max-width: 650px) {
       
       .shopping-cart {
@@ -398,7 +396,11 @@ a{
       }
     }</style>
 <body>
-    <h1>Shopping Cart</h1>
+    <div class="cont">
+        <a href="/product"><h1><i class="ri-arrow-left-line"></i></h1></a>
+        <div class="emoji-cont"><span></span><span></span><button id="emoji">Cart list</button></div>
+    </div>
+ 
 
 <div class="shopping-cart">
 
@@ -412,7 +414,7 @@ a{
   </div>
 
   <div class="product">
-   
+       <% let totalPrice = 0 %>
     <% user.cart.forEach(carts => { %>
         <% let proTotalPrice = carts.c_price * carts.c_quant; %>
         <% totalPrice += proTotalPrice; %>
@@ -426,7 +428,7 @@ a{
             </div>
             <div class="product-price"><%=carts.c_price%></div>
             <div class="product-quantity">
-                <input type="number" id="quantity_<%= carts.c_id %>" name="quantity" value="<%= carts.c_quant %>" min="1" max="10" onchange="updateQuantity(this)">
+                <input type="number" id="quantity_<%= carts.c_id %>" name="quantity" value="<%= carts.c_quant %>" min="0" max="1100" onchange="updateQuantity(this)">
             </div>
             <div class="product-removal">
                 <a href="/delete/<%=carts._id%>"><button class="remove-product">Remove</button></a>
@@ -461,6 +463,8 @@ a{
 
 </div>
 <script>
+
+    
   var taxRate = 0.05;
         var shippingRate = 15.00;
         var fadeTime = 300;
@@ -485,6 +489,7 @@ a{
     document.getElementById('cart-tax').textContent = tax.toFixed(2);
     document.getElementById('cart-total').textContent = grandTotal.toFixed(2);
 }
+
     </script>
 </body>
 </html>

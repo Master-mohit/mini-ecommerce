@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.profile {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.user-info {
+    margin-bottom: 20px;
+    align-items: center;
+ 
+}
+i{
+    margin-right: 2vw;
+    font-size: 2vw;
+}
+
+.sections {
+    display: flex;
+    flex-direction: column;
+}
+
+.section {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.cart,
+.wishlist {
+    margin-top: 10px;
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.product-image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.product-details,
+.product-price,
+.product-remove {
+    flex: 1;
+}
+
+.product-price {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.product-remove button {
+    background-color: #c00;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.product-remove button:hover {
+    background-color: #900;
+}
+
+.totals {
+ height: -3vw;
+    align-items: center;
+    text-align: right;
+}
+
+.totals-item label {
+    font-weight: bold;
+}
+
+.totals-item-total {
+    font-size: 1.2em;
+    color: #c00;
+}
+
+.buy-now-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.buy-now-btn:hover {
+    background-color: #45a049;
+}
+.product-quantity{
+    padding: 2vw;
+ 
+}
+a{
+    text-decoration: none;
+    color: #000;
+}
+
+</style>
+<body>
+    <div class="profile">
+       
+        <div class="user-info">
+            <h2> <a href="/product"><i class="ri-arrow-left-line"></i></a><%=user.username%></h2>
+           
+        </div>
+        <div class="sections">
+            <div class="section cart-section">
+                <h3>Shopping Cart</h3>
+                <div class="cart">
+                    <% let totalPrice = 0 %>
+                    <% user.cart.forEach(cart => { %>
+                        <% let totalProduct = cart.c_price * cart.c_quant %>
+                        <% totalPrice += totalProduct %>
+                        <div class="product">
+                            <div class="product-image"><img src="/images/uploads/<%= cart.c_image %>" alt="Product Image"></div>
+                            <div class="product-details">
+                                <h4><%= cart.c_name %></h4>
+                                <p><%= cart.c_description %></p>
+                            </div>
+                            <div class="product-price"><%= cart.c_price %></div>
+                            <div class="product-quantity"><input type="number" value="<%= cart.c_quant %>" min="0"></div>
+                            <div class="product-remove"><a href="/delete/<%=cart._id%>"><button>Remove</button></a></div>
+                            <div class="total">$ <%= totalProduct.toFixed(2) %></div>
+                        </div>
+                    <% }) %>
+                </div>
+        
+                <div class="totals">
+                    <div class="subtotal">Subtotal: $ <%= totalPrice.toFixed(2) %></div>
+                    <div class="tax">Tax (5%): $ <%= (totalPrice * 0.05).toFixed(2) %></div>
+                    <div class="shipping">Shipping: $15.00</div>
+                    <div class="cart-total">Total: $ <%= (totalPrice + (totalPrice * 0.05) + 15).toFixed(2) %></div>
+                </div>
+                <button class="buy-now-btn">Buy Now</button>
+            </div>
+        </div>
+        
+            <div class="section wishlist-section">
+                <h3>Wishlist</h3>
+                <div class="wishlist">
+                    <% user.wishlist.forEach(wish => { %>
+                    <div class="product">
+                        <div class="product-image"><img src="/images/uploads/<%= wish.w_image %>" alt="Product Image"></div>
+                        <div class="product-details">
+                            <h4><%=wish.w_name%></h4>
+                            <p><%=wish.w_description%></p>
+                        </div>
+                        <div class="product-remove"><a href="/delete/<%=wish._id%>"><button>Remove</button></a></div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        document.querySelectorAll('.product').forEach(function(product) {
+            const price = parseFloat(product.querySelector('.product-price').innerText);
+            const quantity = parseInt(product.querySelector('.product-quantity input').value);
+            const total = price * quantity;
+            product.querySelector('.total').innerText = '$' + total.toFixed(2);
+            totalPrice += total;
+        });
+
+        
+        const subtotalElement = document.querySelector('.subtotal');
+        subtotalElement.innerText = 'Subtotal: $' + totalPrice.toFixed(2);
+    }
+
+    document.querySelectorAll('.product-quantity input').forEach(function(input) {
+        input.addEventListener('input', updateTotalPrice);
+    });
+
+    updateTotalPrice(); 
+});
+
+
+    
+   
+
+</script>
+
+</body>
+</html>

@@ -54,6 +54,13 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/profile',isLoggedIn,async function(req, res, next) {
+  const user   =  await userModel.findOne({username: req.session.passport.user}).populate("cart", "wishlist");
+  const product = await productModel.find();
+  res.render('profile', {user, product});
+});
+
+
 router.get('/product',isLoggedIn, async function(req, res, next) {
   const user = await userModel.findOne({username: req.session.passport.user})
   try {
@@ -97,16 +104,39 @@ router.get('/login', function(req, res, next) {
 
 
 router.get('/delete/:id', isLoggedIn, async function(req, res, next) {
-    const productId = req.params.id; 
-    const user = await userModel.findOne({ username: req.session.passport.user });
-       const userId = await userModel.findById(user);
-       const hai = userId.cart.indexOf(productId);
-       if(userId){
-        user.cart.splice(productId, 1)
-       }
-       await user.save();
-       res.redirect("/cart")
-    
+  const productId = req.params.id; 
+  const user = await userModel.findOne({ username: req.session.passport.user });
+  
+  // Check if user exists
+  if (!user) {
+      return res.status(404).send("User not found");
+  }
+
+  // Find index of product in cart
+  const productIndexCart = user.cart.findIndex(item => item._id.toString() === productId);
+  
+  // Check if user has wishlist and find index of product in wishlist
+  let productIndexWishlist = -1;
+  if (user.wish) {
+      productIndexWishlist = user.wish.findIndex(item => item._id.toString() === productId);
+  }
+
+  // Check if product exists in cart
+  if (productIndexCart !== -1) {
+      // Remove product from cart
+      user.cart.splice(productIndexCart, 1);
+  }
+
+  // Check if product exists in wishlist
+  if (productIndexWishlist !== -1) {
+      // Remove product from wishlist
+      user.wish.splice(productIndexWishlist, 1);
+  }
+
+  await user.save();
+  res.redirect("back");
+  console.log("Wishlist:", user.wish);
+
 });
 
 
@@ -117,33 +147,30 @@ router.get('/cpage/:id',isLoggedIn, async function(req, res, next) {
 
 router.get('/cart', isLoggedIn, async function(req, res, next) {
    const user = await userModel.findOne({ username: req.session.passport.user });
-   const pro = await productModel.findById(req.params.id)
-    res.render('cart',{user, pro});
+    res.render('cart',{user});
 });
 
 
-router.get('/cart/:id' ,isLoggedIn, upload.single("image"), async function(req, res, next) {
-  const userId = await userModel.findOne({username: req.session.passport.user}) 
-  const productId = req.params.id;
-  const product = await productModel.findById(productId);
-
-  
-  const user = await userModel.findById(userId);
-  user.cart.push({
-    c_name: product.p_name,
-    c_image: product.p_image,
-    c_description: product.p_description,
-    c_price: product.p_price,
-    c_id:product._id,
-    c_quant: req.body.quant
-    
-  });
-  
-    
-
-  res.redirect("/product")
-  await user.save();
- 
+router.get('/cart/:id', isLoggedIn, async function(req, res, next) {
+  try {
+      const userId = await userModel.findOne({ username: req.session.passport.user });
+      const productId = req.params.id;
+      const product = await productModel.findById(productId);
+      const user = await userModel.findById(userId);
+      user.cart.push({
+          c_name: product.p_name,
+          c_image: product.p_image,
+          c_description: product.p_description,
+          c_price: product.p_price,
+          c_id: product._id,
+          c_quant: req.body.quant 
+      });
+      await user.save();
+      res.redirect("/product");
+  } catch (error) {
+      console.error("Error adding product to cart:", error);
+      res.status(500).send("Error adding product to cart");
+  }
 });
 
 
@@ -159,20 +186,19 @@ router.get('/wishlist', isLoggedIn, async function(req, res, next) {
 });
 
 
-router.get('/wishlist/:id',isLoggedIn, upload.single("image"),async function(req, res, next) {
+router.get('/wishlist/:id',isLoggedIn,async function(req, res, next) {
  const pro = req.params.id
  const product = await productModel.findById(pro)
  const user = await userModel.find({username: req.session.passport.user})
- const userid = await userModel.findById(user)
-
- userid.wishlist.push({
+ const userId = await userModel.findById(user)
+ userId.wishlist.push({
   w_name: product.p_name,
   w_image: product.p_image,
   w_description: product.p_description, 
   w_id:product._id
  })
-   res.redirect("/product")
- await userid.save();``
+ await userId.save();
+ res.redirect("/product");
 });
 
 router.get('/wpage/:id', isLoggedIn, async function(req, res, next) {

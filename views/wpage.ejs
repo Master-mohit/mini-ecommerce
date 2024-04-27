@@ -210,6 +210,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
 </head>
 <style>
   @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
@@ -273,10 +277,10 @@ a{
     gap: 2rem;
 }
 
-/*-- PAGES --*/
 .title-shop{
     position: relative;
     margin: 0 2.5rem;
+ 
 }
 .title-shop::after{
     content: '';
@@ -402,6 +406,9 @@ article:nth-child(4){
             padding: 5px;
            
         }
+        i{
+          color: #161616;
+        }
 
 @media screen and (min-width: 1200px){
     body{
@@ -419,14 +426,14 @@ article:nth-child(4){
 <body>
   
   <body>
-    <h1 class="title-shop">SHOP</h1>
+    <h1 class="title-shop"><a href="/product"><i class="ri-arrow-left-line"></i></a>SHOP</h1>
     <main class="main bd-grid">
         <article class="card">
             <div class="card__img">
                 <img src="/images/uploads/<%=pro.p_image%>" alt="">
             </div>
             <div class="card__name">
-                <p>AIR ZOOM PEGASUS</p>
+                <p>AIR ZOOM PEGASUS✨</p>
             </div>
             <div class="card__precis">
                 <a href="/wishlist/<%=pro._id%>" class="card__icon" ><ion-icon name="heart-outline"></ion-icon></a>
@@ -442,7 +449,6 @@ article:nth-child(4){
     </main>
     <div id="chacha">
       <button id="rzp-button1">Buy Now</button>
-      <input type="number" id="quantity" name="quant" >
     </div>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -450,7 +456,7 @@ article:nth-child(4){
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
    
     <script>
-      var orderId;
+     var orderId;
       $(document).ready(function(){
         var settings1 = {
           "url": "/create/orderId",

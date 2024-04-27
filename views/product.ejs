@@ -319,7 +319,7 @@
     .item-card {
       height: 500px;
       background-color: white;
-      width: 375px;
+      width: 300px;
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -329,10 +329,10 @@
       overflow: hidden;
     }
     .item-image {
-      height: 350px;
+      height: 350px;  
       width: 350px;
       object-fit: cover;
-      margin-top: 10px;
+      
       cursor: pointer;
     }
     img{
@@ -767,7 +767,7 @@ a{
       </div>
       <div class="nav-links">
         <a href="" class="selected-link">Home</a><a href="/create">Create</a
-        ><a href="/wishlist">Wishlist</a><a href="">Men</a><a href="/cart">Add to cart</a><a href="">Profile</a>
+        ><a href="/wishlist">Wishlist</a><a href="">Men</a><a href="/cart">Add to cart</a><a href="/profile">Profile</a>
       </div>
     </nav>
     <main>
@@ -795,7 +795,7 @@ a{
                   </div>
                   <h1 class="product-name"><%= pro.p_name %></h1>
                   <h2 class="product-description"><%= pro.p_description %></h2>
-                  <h3 class="product-price">$ <%= pro.p_price %></h3>
+                  <h3 class="product-price">₹<%= pro.p_price %></h3>
                 </div>
               </a>
             </div>
