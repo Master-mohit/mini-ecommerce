@@ -158,7 +158,7 @@ h1 {
       }
     }
     
-    .checkout {
+    #rzp-button1 {
       float: right;
       border: 0;
       margin-top: 20px;
@@ -459,10 +459,78 @@ span:nth-child(2):hover ~ #emoji {
     </div>
 </div>
 
-<button class="checkout">Continue</button>
+<button id="rzp-button1">Continue</button>
 
 </div>
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   
+    <script>
+     var orderId;
+      $(document).ready(function(){
+        var settings1 = {
+          "url": "/create/orderId",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": JSON.stringify({
+            "c_price": "<%= product.c_price %>",
+            "quantity": $('#quantity').val()
+          }),
+        };
+
+        $.ajax(settings1).done(function(response){
+          options = {
+            "key": "rzp_test_siSorUn9S3dW9E",
+            "amount": response.amount,
+            "currency": response.currency,
+            "name": "Acme Corp",
+            "description": "so pretty easy to use",
+            "image": "https://example.com/your_logo",
+            "order_id": response.id,
+            "handler": function (response) {
+              var settings = {
+                "url": "/api/payment/verify",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "data": JSON.stringify(response),
+              };
+              $.ajax(settings).done(function(response){
+                if(response == true){
+                  alert("Successful")
+                } else {
+                  alert("Payment failed")
+                }
+              })
+            },
+            "notes": {
+              "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+              "color": "#3399cc"
+            }
+          };
+          var rzp1 = new Razorpay(options);
+          rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+          });
+          document.getElementById('rzp-button1').onclick= function(e){
+            rzp1.open();
+            e.preventDefault();
+          }
+        });
+      });
 
     
   var taxRate = 0.05;

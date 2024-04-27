@@ -292,7 +292,7 @@ a{
     margin-left: .25rem;
 }
 
-/*-- COMPONENT --*/
+
 .card{
     position: relative;
     display: flex;
@@ -453,7 +453,6 @@ article:nth-child(4){
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
    
     <script>
      var orderId;
@@ -466,14 +465,14 @@ article:nth-child(4){
             "Content-Type": "application/json"
           },
           "data": JSON.stringify({
-            "p_price": "<%=pro.c_price%>",
+            "p_price": "<%=pro.p_price%>",
             "quantity": $('#quantity').val()
           }),
         };
 
         $.ajax(settings1).done(function(response){
           options = {
-            "key": "rzp_test_nKhUOr5BeWPtRP",
+            "key": "rzp_test_siSorUn9S3dW9E",
             "amount": response.amount,
             "currency": response.currency,
             "name": "Acme Corp",
@@ -515,7 +514,7 @@ article:nth-child(4){
             alert(response.error.metadata.order_id);
             alert(response.error.metadata.payment_id);
           });
-          document.getElementById('rzp-button1').onclick = function(e){
+          document.getElementById('rzp-button1').onclick= function(e){
             rzp1.open();
             e.preventDefault();
           }

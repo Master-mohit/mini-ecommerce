@@ -184,7 +184,7 @@
       justify-content: space-between;
       align-items: center;
       flex-direction: row;
-      width: 10.5em;
+      width: 13em;
       margin-right: 2em;
     }
     .log-in a {
@@ -755,15 +755,15 @@ a{
     <nav>
       <div class="nav-bar">
         <div class="logo">AirBoost</div>
-        <div class="search">
+        <a href="/search"><div class="search">
           <span class="material-symbols-outlined search-icon"> search </span>
           <input
             class="search-bar"
             placeholder="Find Your Sole Mate..."
             type="text"
           />
-        </div>
-        <div class="log-in"><a href="">Sign Up</a><a href="">Log In</a></div>
+        </div></a>
+        <div class="log-in"><a href="/logout">Log out</a></div>
       </div>
       <div class="nav-links">
         <a href="" class="selected-link">Home</a><a href="/create">Create</a
@@ -822,6 +822,8 @@ a{
         });
       });
     
+
+
     </script>
   </body>
 </html>

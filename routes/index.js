@@ -13,15 +13,17 @@ passport.use(new localStrategy(userModel.authenticate()));
 
 
 const instance = new Razorpay({
-  key_id: 'rzp_test_nKhUOr5BeWPtRP',
-  key_secret: 'rh5DFFYTqZRIxq49oAlkpNOy',
+  key_id: 'rzp_test_siSorUn9S3dW9E',
+  key_secret: 'WYa0ykSldShg8dv51iPXHz6I',
 });
 
 router.post('/create/orderId', function(req, res, next) {
   var p_price = req.body.p_price;
+  var c_price = req.body.c_price;
   console.log("Request received to create order:", req.body); 
   var options = {
     amount: p_price * 100,    
+    amount: c_price * 100,  
     currency: "INR",
     receipt: "order_rcptid_11"
   };
@@ -40,7 +42,7 @@ router.post("/api/payment/verify", function(req, res) {
     const razorpayOrderId = req.body.razorpay_order_id;
     const razorpayPaymentId = req.body.razorpay_payment_id;
     const signature = req.body.razorpay_signature;
-    const secret = 'rh5DFFYTqZRIxq49oAlkpNOy';
+    const secret = 'WYa0ykSldShg8dv51iPXHz6I';
     const result = validatePaymentVerification({"order_id": razorpayOrderId, "payment_id": razorpayPaymentId}, signature, secret);
     res.send(result);
   } catch (error) {
@@ -52,6 +54,29 @@ router.post("/api/payment/verify", function(req, res) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+});
+
+router.get('/search',isLoggedIn, async function(req, res, next) {
+  const products = await productModel.find();
+  res.render('search', {products});
+});
+
+router.post('/searchProduct', isLoggedIn, async (req, res, next) => {
+  try {
+      const query = req.body.data;
+
+      const foundProducts = await productModel.find({
+          $or: [
+              { p_name: { $regex: query, $options: 'i' } },
+             
+          ]
+      });
+
+      res.status(200).json(foundProducts);
+  } catch (error) {
+      console.error('Error searching products:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 router.get('/profile',isLoggedIn,async function(req, res, next) {
@@ -107,47 +132,34 @@ router.get('/delete/:id', isLoggedIn, async function(req, res, next) {
   const productId = req.params.id; 
   const user = await userModel.findOne({ username: req.session.passport.user });
   
-  // Check if user exists
   if (!user) {
       return res.status(404).send("User not found");
   }
 
-  // Find index of product in cart
   const productIndexCart = user.cart.findIndex(item => item._id.toString() === productId);
-  
-  // Check if user has wishlist and find index of product in wishlist
   let productIndexWishlist = -1;
-  if (user.wish) {
-      productIndexWishlist = user.wish.findIndex(item => item._id.toString() === productId);
+  if (user.wishlist) {
+      productIndexWishlist = user.wishlist.findIndex(item => item._id.toString() === productId);
   }
-
-  // Check if product exists in cart
   if (productIndexCart !== -1) {
-      // Remove product from cart
       user.cart.splice(productIndexCart, 1);
   }
-
-  // Check if product exists in wishlist
   if (productIndexWishlist !== -1) {
-      // Remove product from wishlist
-      user.wish.splice(productIndexWishlist, 1);
+      user.wishlist.splice(productIndexWishlist, 1);
+      console.log("Wishlist:", user.wish);
   }
 
   await user.save();
   res.redirect("back");
-  console.log("Wishlist:", user.wish);
+ 
 
 });
 
-
-router.get('/cpage/:id',isLoggedIn, async function(req, res, next) {
-   const prod = await productModel.findById(req.params.id)
-  res.render('cpage',{prod});
-});
 
 router.get('/cart', isLoggedIn, async function(req, res, next) {
    const user = await userModel.findOne({ username: req.session.passport.user });
-    res.render('cart',{user});
+   const product = await productModel.find()
+    res.render('cart',{user, product});
 });
 
 
@@ -157,6 +169,12 @@ router.get('/cart/:id', isLoggedIn, async function(req, res, next) {
       const productId = req.params.id;
       const product = await productModel.findById(productId);
       const user = await userModel.findById(userId);
+
+      const existingProductIndex = user.cart.findIndex(item => String(item.c_id) === productId);
+      if (existingProductIndex !== -1) {
+          return res.redirect("/product");
+      }
+
       user.cart.push({
           c_name: product.p_name,
           c_image: product.p_image,
@@ -173,8 +191,6 @@ router.get('/cart/:id', isLoggedIn, async function(req, res, next) {
   }
 });
 
-
-
 router.get('/wishlist', isLoggedIn, async function(req, res, next) {
   try {
     const user = await userModel.findOne({username: req.session.passport.user});
@@ -187,18 +203,27 @@ router.get('/wishlist', isLoggedIn, async function(req, res, next) {
 
 
 router.get('/wishlist/:id',isLoggedIn,async function(req, res, next) {
- const pro = req.params.id
- const product = await productModel.findById(pro)
- const user = await userModel.find({username: req.session.passport.user})
- const userId = await userModel.findById(user)
- userId.wishlist.push({
-  w_name: product.p_name,
-  w_image: product.p_image,
-  w_description: product.p_description, 
-  w_id:product._id
- })
- await userId.save();
- res.redirect("/product");
+  try {
+    const productId = req.params.id;
+    const product = await productModel.findById(productId);
+    const user = await userModel.findOne({ username: req.session.passport.user });
+    const existingProductIndex = user.wishlist.findIndex(item => String(item.w_id) === productId);
+    if (existingProductIndex !== -1) {
+        return res.redirect("/product");
+    }
+
+    user.wishlist.push({
+      w_name: product.p_name,
+      w_image: product.p_image,
+      w_description: product.p_description, 
+      w_id: product._id
+    });
+    await user.save();
+    res.redirect("/product");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 router.get('/wpage/:id', isLoggedIn, async function(req, res, next) {
