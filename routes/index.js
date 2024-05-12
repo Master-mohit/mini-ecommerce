@@ -13,8 +13,8 @@ passport.use(new localStrategy(userModel.authenticate()));
 
 
 const instance = new Razorpay({
-  key_id: 'rzp_test_siSorUn9S3dW9E',
-  key_secret: 'WYa0ykSldShg8dv51iPXHz6I',
+  key_id: 'Your Key ID',
+  key_secret: 'Your secret',
 });
 
 router.post('/create/orderId', function(req, res, next) {
